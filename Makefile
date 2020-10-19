@@ -58,11 +58,15 @@ CFLAGS += -T  STM32F417IG_FLASH.ld -specs=nano.specs -specs=nosys.specs
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS +=   -mfpu=fpv4-sp-d16 -mfloat-abi=soft
 CFLAGS += -DSTM32F40_41xxx
-CFLAGS += -Wl,--gc-sections
 CFLAGS += -I ./Includes
 CFLAGS += -I .
 CFLAGS += -I ./FreeRTOS/Source/portable/GCC/ARM_CM4F
 CFLAGS += -I ./FreeRTOS/Source/include/
+
+LD_FLAGS = -mlittle-endian -mthumb
+LD_FLAGS += -DSTM32F40_41xxx -T  STM32F417IG_FLASH.ld
+LD_FLAGS +=  -mfpu=fpv4-sp-d16 -specs=nano.specs -specs=nosys.specs
+LD_FLAGS += -Wl,--gc-sections
 
 
 all: $(PROJECT).elf
@@ -71,7 +75,7 @@ all: $(PROJECT).elf
 $(PROJECT).elf: $(CXX_SOURCES)
 	$(CC) $(CFLAGS) $(SOURCES) 
 	$(CXX) $(CFLAGS) $(CXX_SOURCES) 
-	$(CXX) -mlittle-endian -mthumb  -DSTM32F40_41xxx -T  STM32F417IG_FLASH.ld  -mfpu=fpv4-sp-d16 -specs=nano.specs -specs=nosys.specs -Wl,--gc-sections $(CC_OBJS) $(CXX_OBJS) -o $@ 
+	$(CXX) $(LD_FLAGS) $(CC_OBJS) $(CXX_OBJS) -o $@ 
 	$(OBJCOPY) -O ihex $(PROJECT).elf $(PROJECT).hex
 	$(OBJCOPY) -O binary $(PROJECT).elf $(PROJECT).bin
 
