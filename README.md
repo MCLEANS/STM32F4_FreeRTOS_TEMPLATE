@@ -1,4 +1,4 @@
-# stm32f4-build
+# stm32f4-build-FreeRTOS
 The build requires the following:
 - [GNU Tools for ARM Embedded Processors toolchain](https://launchpad.net/gcc-arm-embedded) (compiler, objcopy)
 - [STLINK software](https://github.com/texane/stlink) (uploading code to stm32f4)
